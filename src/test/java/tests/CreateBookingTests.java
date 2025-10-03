@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import com.github.javafaker.Faker;
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
@@ -9,9 +10,13 @@ import pojos.Booking;
 import pojos.BookingDates;
 import static io.restassured.RestAssured.given;
 
+@Epic("Booking API")
+@Feature("Create Operations")
 public class CreateBookingTests extends BaseTest {
 
     @Test
+    @Story("Create a new booking")
+    @Description("Test to create a new booking with dynamic data")
     public void createBookingTest() {
         Faker faker = new Faker();
 

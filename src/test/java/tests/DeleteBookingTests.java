@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import com.github.javafaker.Faker;
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
@@ -9,9 +10,13 @@ import pojos.Booking;
 import pojos.BookingDates;
 import static io.restassured.RestAssured.given;
 
+@Epic("Booking API")
+@Feature("Update and Delete Operations")
 public class DeleteBookingTests extends BaseTest {
 
     @Test
+    @Story("Delete a booking")
+    @Description("Test to delete an existing booking")
     public void deleteBookingTest() {
         Response responseCreate = createBooking();
         int bookingId = responseCreate.jsonPath().getInt("bookingid");
