@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import pojos.Booking;
 import pojos.BookingDates;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 @Epic("Booking API")
 @Feature("Read Operations")
@@ -41,6 +42,7 @@ public class GetBookingTests extends BaseTest {
                 .get("/booking/" + bookingId)
                 .then()
                 .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/booking-schema.json"))
                 .log().body();
     }
 
