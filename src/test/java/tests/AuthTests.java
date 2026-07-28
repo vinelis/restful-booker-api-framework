@@ -5,6 +5,7 @@ import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
+import utils.ConfigReader;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -17,8 +18,8 @@ public class AuthTests extends BaseTest {
     @Description("Test to create an authentication token")
     public void createTokenTest() {
         String payload = "{\n" +
-                "    \"username\" : \"admin\",\n" +
-                "    \"password\" : \"password123\"\n" +
+                "    \"username\" : \"" + ConfigReader.get("auth.username") + "\",\n" +
+                "    \"password\" : \"" + ConfigReader.get("auth.password") + "\"\n" +
                 "}";
 
         Response response = given()
@@ -30,7 +31,5 @@ public class AuthTests extends BaseTest {
         response.then()
                 .statusCode(200)
                 .body("token", not(emptyOrNullString()));
-
-        String token = response.jsonPath().getString("token");
     }
 }

@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import pojos.Booking;
 import pojos.BookingDates;
+import utils.ConfigReader;
 import static io.restassured.RestAssured.given;
 
 @Epic("Booking API")
@@ -69,7 +70,7 @@ public class UpdateBookingTests extends BaseTest {
     }
 
     private String getToken() {
-        String payload = "{\"username\" : \"admin\", \"password\" : \"password123\"}";
+        String payload = "{\"username\" : \"" + ConfigReader.get("auth.username") + "\", \"password\" : \"" + ConfigReader.get("auth.password") + "\"}";
         Response response = given()
                 .contentType(ContentType.JSON)
                 .body(payload)
