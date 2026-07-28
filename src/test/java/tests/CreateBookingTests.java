@@ -41,4 +41,26 @@ public class CreateBookingTests extends BaseTest {
         response.then()
                 .statusCode(200);
     }
+
+    @Test
+    @Story("Create a booking with invalid payload")
+    @Description("Test to verify the API's behavior when required fields are missing")
+    public void createBookingWithMissingBookingDatesTest() {
+        Faker faker = new Faker();
+
+        Booking booking = new Booking();
+        booking.setFirstname(faker.name().firstName());
+        booking.setLastname(faker.name().lastName());
+        booking.setTotalprice(faker.number().numberBetween(100, 5000));
+        booking.setDepositpaid(faker.bool().bool());
+        booking.setAdditionalneeds("Breakfast");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(booking)
+                .when()
+                .post("/booking")
+                .then()
+                .statusCode(500);
+    }
 }
