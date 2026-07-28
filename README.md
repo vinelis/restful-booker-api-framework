@@ -18,6 +18,8 @@ The framework is architected to be **robust, scalable, and easily maintainable**
 * **Dynamic Data Generation**: Employs the **JavaFaker** library to generate realistic, random test data for each execution, ensuring tests are dynamic and cover a wider range of inputs.
 * **Full API Workflow Coverage**: Tests cover the entire API lifecycle, including creating resources, retrieving them, updating them with authentication, and deleting them.
 * **Endpoint Constants**: API routes are defined as constants in a dedicated `Routes` class, laying the groundwork for centralizing endpoint management as the suite grows.
+* **Externalized Configuration**: The base URL and authentication credentials are read from `config.properties` instead of being hardcoded, with support for overriding any value at runtime via `-D` system properties.
+* **Response Schema Validation**: Key endpoints assert the full JSON structure of the response with **json-schema-validator**, not just the status code.
 * **Continuous Integration**: Every push and pull request to `main` triggers an automated run of the full suite via **GitHub Actions**, publishing the Allure report to GitHub Pages.
 
 ---
@@ -27,7 +29,8 @@ The framework is architected to be **robust, scalable, and easily maintainable**
 The framework automates the complete CRUD and authentication workflow for the booking API:
 
 * **Create Booking (POST)**
-  * Verify successful creation of a new booking with dynamic data.
+  * Verify successful creation of a new booking with dynamic data, asserting the response matches the expected JSON schema.
+  * Verify the API's behavior when required fields (e.g. `bookingdates`) are missing from the payload.
 * **Get Bookings (GET)**
   * Retrieve a list of all existing booking IDs.
   * Retrieve the details of a specific booking by its ID.
@@ -50,6 +53,7 @@ The framework automates the complete CRUD and authentication workflow for the bo
 * **Reporting**: Allure Report
 * **JSON Serialization/Deserialization**: Jackson Databind
 * **Data Generation**: JavaFaker
+* **Schema Validation**: json-schema-validator
 * **CI/CD**: GitHub Actions
 
 ---
@@ -85,6 +89,12 @@ allure serve target/allure-results
 This will generate the report and open it in your default web browser.
 
 The report is also published automatically to **GitHub Pages** on each run of the CI pipeline (GitHub Actions): **[https://vinelis.github.io/restful-booker-api-framework/](https://vinelis.github.io/restful-booker-api-framework/)**
+
+---
+
+## 🔭 Next Steps
+
+* **Environment Isolation**: The suite currently runs against the live public `restful-booker.herokuapp.com` demo, which is shared and can change state between runs. A natural next step is mocking the API with **WireMock** (or a similar tool) to run the suite fully isolated, plus a per-environment config (`-Denv=qa|staging`) to switch targets without touching code.
 
 ---
 
